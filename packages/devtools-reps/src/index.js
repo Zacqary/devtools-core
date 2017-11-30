@@ -4,7 +4,7 @@
 
 const { MODE } = require("./reps/constants");
 const { REPS, getRep } = require("./reps/rep");
-const ObjectInspector = require("./object-inspector/");
+const ObjectInspector = require("./object-inspector/initializer");
 const ObjectInspectorUtils = require("./object-inspector/utils/node");
 
 const {
