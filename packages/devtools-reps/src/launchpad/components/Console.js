@@ -32,6 +32,8 @@ class Console extends Component {
       showResultPacket: PropTypes.func.isRequired,
       createObjectClient: PropTypes.func.isRequired,
       releaseActor: PropTypes.func.isRequired,
+      showReps: PropTypes.func.isRequired,
+      hideReps: PropTypes.func.isRequired,
     };
   }
 
@@ -56,6 +58,8 @@ class Console extends Component {
       showResultPacket,
       createObjectClient,
       releaseActor,
+      showReps,
+      hideReps,
     } = this.props;
 
     return dom.main(
@@ -74,6 +78,8 @@ class Console extends Component {
         showResultPacket,
         createObjectClient,
         releaseActor,
+        showReps,
+        hideReps,
       })
     );
   }

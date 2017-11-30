@@ -18,6 +18,8 @@ class ResultsList extends Component {
       hideResultPacket: PropTypes.func.isRequired,
       createObjectClient: PropTypes.func.isRequired,
       releaseActor: PropTypes.func.isRequired,
+      showReps: PropTypes.func.isRequired,
+      hideReps: PropTypes.func.isRequired,
     };
   }
 
@@ -28,6 +30,8 @@ class ResultsList extends Component {
       hideResultPacket,
       createObjectClient,
       releaseActor,
+      showReps,
+      hideReps,
     } = this.props;
 
     return dom.div({ className: "expressions" },
@@ -40,6 +44,8 @@ class ResultsList extends Component {
           expression: expression.toJS(),
           showResultPacket: () => showResultPacket(key),
           hideResultPacket: () => hideResultPacket(key),
+          showReps: () => showReps(key),
+          hideReps: () => hideReps(key),
           createObjectClient,
           releaseActor,
         })

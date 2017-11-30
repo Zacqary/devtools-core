@@ -3,11 +3,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const React = require("react");
-const { Component, createFactory } = React;
+const { Component } = React;
 const PropTypes = require("prop-types");
 const dom = require("react-dom-factories");
 const { MODE } = require("../../reps/constants");
-const ObjectInspector = createFactory(require("../../index").ObjectInspector);
+const ObjectInspector = require("../../index").ObjectInspector;
 const { Rep } = require("../../reps/rep");
 
 class Result extends Component {
@@ -16,6 +16,8 @@ class Result extends Component {
       expression: PropTypes.object.isRequired,
       showResultPacket: PropTypes.func.isRequired,
       hideResultPacket: PropTypes.func.isRequired,
+      showReps: PropTypes.func.isRequired,
+      hideReps: PropTypes.func.isRequired,
       createObjectClient: PropTypes.func.isRequired,
       releaseActor: PropTypes.func.isRequired,
     };
@@ -28,6 +30,7 @@ class Result extends Component {
     this.renderRepInAllModes = this.renderRepInAllModes.bind(this);
     this.renderRep = this.renderRep.bind(this);
     this.renderPacket = this.renderPacket.bind(this);
+    this.onToggleClick = this.onToggleClick.bind(this);
   }
 
   copyPacketToClipboard(e, packet) {
@@ -47,6 +50,15 @@ class Result extends Component {
       this.props.hideResultPacket();
     } else {
       this.props.showResultPacket();
+    }
+  }
+
+  onToggleClick() {
+    const {expression} = this.props;
+    if (expression.showReps !== false) {
+      this.props.hideReps();
+    } else {
+      this.props.showReps();
     }
   }
 
@@ -70,6 +82,7 @@ class Result extends Component {
         "data-mode": modeKey
       },
       ObjectInspector({
+        id: `${path}${modeKey}`,
         roots: [{
           path,
           contents: {
@@ -110,11 +123,17 @@ class Result extends Component {
 
   render() {
     let {expression} = this.props;
-    let {input, packet} = expression;
+    let {input, packet, showReps = true} = expression;
     return dom.div(
       { className: "rep-row" },
-      dom.div({ className: "rep-input" }, input),
-      dom.div({ className: "reps" }, this.renderRepInAllModes({
+      dom.header({},
+        dom.button({
+          className: "rep-toggle",
+          onClick: this.onToggleClick,
+        }, showReps ? "▼" : "▶︎"),
+        dom.span({ className: "rep-input" }, input)
+      ),
+      showReps && dom.div({ className: "reps" }, this.renderRepInAllModes({
         object: packet.exception || packet.result
       })),
       this.renderPacket(expression)
